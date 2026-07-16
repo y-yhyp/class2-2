@@ -16,15 +16,25 @@ from xgboost import XGBClassifier
 # ============================================
 # 0. Matplotlib 한글 폰트 설정 (깨짐 방지)
 # ============================================
-system_name = platform.system()
-if system_name == "Windows":
-    plt.rc("font", family="Malgun Gothic")
-elif system_name == "Darwin":  # Mac
-    plt.rc("font", family="AppleGothic")
-else:
-    plt.rc("font", family="NanumGothic")
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+import platform
+import os
 
-plt.rc("axes", unicode_minus=False)
+# 시스템별 폰트 자동 설정
+if platform.system() == 'Linux':
+    # 스트림릿 서버(리눅스)에 설치된 나눔고딕 파
+    font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+    if os.path.exists(font_path):
+        fm.fontManager.addfont(font_path)
+    plt.rc('font', family='NanumGothic')
+elif platform.system() == 'Windows':
+    plt.rc('font', family='Malgun Gothic')
+elif platform.system() == 'Darwin': # Mac
+    plt.rc('font', family='AppleGothic')
+
+# 마이너스 기호 깨짐 방지
+plt.rcParams['axes.unicode_minus'] = False
 
 # ============================================
 # 1. 웹 페이지 기본 레이아웃 설정
